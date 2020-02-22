@@ -9,7 +9,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 
 import requests
-res = requests.post('http://7ff078b7.ngrok.io/similarity/123', 
+res = requests.post('http://985188d7.ngrok.io/similarity/123', 
                     json={
                             "blogs":
                                 ['''Merge sort is a sorting technique based on divide and conquer technique. With worst-case time complexity being Ο(n log n), it is one of the most respected algorithms.
@@ -78,6 +78,7 @@ Algorithm
 The type of merger continues to divide the list into equal halves until it can no longer be divided. By definition, if it is only one item in the list, it is ordered. Then, the combined sort combines the smaller ordered lists, while maintaining the new list.''','''Bush are an English rock band formed in London, England in 1992. Their current lineup consists of lead vocalist and rhythm guitarist Gavin Rossdale, drummer Robin Goodridge, lead guitarist Chris Traynor, and bassist Corey Britz.
 
 In 1994, Bush found immediate success with the release of their debut album, Sixteen Stone, which is certified 6× multi-platinum by the RIAA.[3] They went on to become one of the most commercially successful rock bands of the 1990s, selling over 10 million records in the United States and 20 million in the world.
+{'data': {'0': [[2, 0.5594000719175809], [3, 0.6729258068998232], [1, 0.9440223567374592]], '1': [[2, 0.5894161286444459], [3, 0.6772768928598724], [0, 0.9440223567374592]], '2': [[0, 0.5594000719175809], [3, 0.5662745612248996], [1, 0.5894161286444459]], '3': [[2, 0.5662745612248996], [0, 0.6729258068998232], [1, 0.6772768928598724]]}}
 
 Despite their success in the US (especially in the mid-1990s), the band were considerably less popular in their home country – a period when Britpop groups dominated the UK charts and the appeal of the grunge sound had declined – and they have enjoyed only marginal success there.[4]
 
@@ -211,4 +212,77 @@ data = similarity(docs,doc1)
 
 print(data[-1])
 
+'''
+import cv2
+
+image = cv2.imread('a01-000u.png')
+_,img_encoded = cv2.imencode('.png',image)
+img_encoded = img_encoded.tostring()
+'''
+
+import base64
+
+with open("Muhammad Shaheer Akram.pdf","rb") as pdf_file:
+    pdf_encoded = base64.b64encode(pdf_file.read())
+
+pdfs = []
+pdfs.append(pdf_encoded)
+
+import requests
+res = requests.post('http://f651d91c.ngrok.io/pdf-text/123', 
+                    json = {"pdfs": pdfs})
+if res.ok:
+    print(res.json())
+else:
+    print("somthing went wrong")
+
+
+import PyPDF2
+import io
+def pdfRead(myPdf):
+  print(myPdf.numPages)
+  num_pages = myPdf.numPages
+  count = 0
+  text = ""
+  while count < num_pages:
+    pageObj = myPdf.getPage(count)
+    count +=1
+    text += pageObj.extractText()
+  print(text)
+
+pdf = base64.b64decode(pdf_encoded)
+pdf = io.BytesIO(pdf)
+myPdf = PyPDF2.PdfFileReader(pdf)
+pdfRead(myPdf)
+
+
+with open("a01-011u.png", "rb") as img_file:
+    img_encoded = base64.b64encode(img_file.read())
+
+print(img_encoded)
+images = []
+images.append(img_encoded)
+
+import requests
+res = requests.post('http://da80e0b2.ngrok.io/image-text/123', 
+                    json = {"images": images})
+if res.ok:
+    result = res.json()
+    print(res.json())
+else:
+    print("somthing went wrong")
+
+result = result['text']['0']
+','.join(result)
+
+
+imgdata = base64.b64decode(img_encoded)
+import cv2
+from PIL import Image
+import numpy as np
+import io
+
+image = Image.open(io.BytesIO(imgdata))
+image = cv2.cvtColor(np.array(image), cv2.COLOR_BGR2RGB)
+image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
