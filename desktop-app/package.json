@@ -9,7 +9,7 @@
   "author": "abdulqadir",
   "license": "ISC",
   "dependencies": {
-    "chart.js": "^2.9.3",
+    "chart.js": "^2.9.4",
     "electron": "^7.1.9"
   }
 }
